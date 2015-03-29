@@ -1,0 +1,25 @@
+apply plugin: 'groovy'
+version = '0.1'
+
+ext {
+	groovy = [version: '2.3.10']
+}
+
+repositories {
+	mavenCentral()
+}
+
+configurations {
+	groovyDoc
+ }
+
+dependencies {
+	compile "org.codehaus.groovy:groovy-all:$groovy.version"
+	testCompile "junit:junit:4.11"
+	groovyDoc "org.codehaus.groovy:groovy-groovydoc:$groovy.version"
+	groovyDoc "org.codehaus.groovy:groovy-ant:$groovy.version"
+}
+
+groovydoc {
+	groovyClasspath = configurations.groovyDoc
+}

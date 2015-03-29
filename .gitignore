@@ -1,0 +1,6 @@
+# Eclipse settings
+.*
+!.gitignore
+
+# Build directories
+/build/
