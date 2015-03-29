@@ -13,7 +13,7 @@ pandoc -f SOURCEFORMAT -t TARGETFORMAT --filter ./Behead.groovy
 Filter script `Behead.groovy` has to be executable. For more details on Pandoc filters see [Pandoc scripting guide](http://johnmacfarlane.net/pandoc/scripting.html)
 
 ## Development guide
-The GroovyPandoc library is not working on plain JSON format, but instead converts it to object tree. Each Pandoc element has a corresponding Groovy class. See package `net.frommknecht.pandoc.types` for details.
+The GroovyPandoc library is not working on plain JSON format, but instead converts it to object tree. Each Pandoc element has a corresponding Groovy class. See package `net.frommknecht.pandoc.types` in [library's GroovyDoc](http://dfrommi.github.io/groovy-pandoc/) for details.
 
 The filter entry point is the static method `toJSONFilter` of class `net.frommknecht.pandoc.Pandoc`. It walks through Pandoc AST using breadth first search and calls the provided closure for each element. Typically, the filter closure first checks if the element is of interest and then transforms it.
 
