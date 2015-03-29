@@ -20,18 +20,11 @@ The filter entry point is the static method `toJSONFilter` of class `net.frommkn
 ### AST transformation
 The modification done on Pandoc AST depends on closure's return value:
 
-`null`
-  ~ No modification of AST
-  
-Empty list `[]`
-  ~ Remove current element from document
+* *`null`:* No modification of AST
+* *Empty list `[]`:* Remove current element from document
+* *Single element:* Replace current element by returned element
+* *List of elements:* Replace current element by all elements of list
 
-Single element
-  ~ Replace current element by returned element
-
-List of elements
-  ~ Replace current element by all elements of list
-  
 ### Closure types  
 Two types of closures are supported. 
 
@@ -75,3 +68,4 @@ toJSONFilter(Header) { Header h ->
 	}
 }
 ```
+
