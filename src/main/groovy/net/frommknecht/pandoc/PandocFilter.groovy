@@ -97,7 +97,7 @@ class PandocFilter {
 		if(node in List) {
 			res = node.collect {
 				callActionWithOptionalMeta(it, meta, action)
-			}
+			}.findAll { it != [] }
 		} else {
 			res = callActionWithOptionalMeta(node, meta, action)
 		}

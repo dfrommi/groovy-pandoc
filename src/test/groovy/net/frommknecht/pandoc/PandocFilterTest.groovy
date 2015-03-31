@@ -4,6 +4,7 @@ import static org.junit.Assert.*
 import net.frommknecht.pandoc.convert.PandocConverter
 import net.frommknecht.pandoc.types.CodeBlock
 import net.frommknecht.pandoc.types.Header
+import net.frommknecht.pandoc.types.HorizontalRule
 import net.frommknecht.pandoc.types.Para
 import net.frommknecht.pandoc.types.Space
 import net.frommknecht.pandoc.types.Str
@@ -45,6 +46,32 @@ class PandocFilterTest {
 	public void testToJSONFilterTransformRemoveElement() {
 		performTransformTest("Hello world", "Hello") {
 			if((it in Str && it.text == "world") || it in Space)  {
+				[]
+			}
+		}
+	}
+
+	@Test
+	public void testToJSONFilterTransformRemoveElement2() {
+		String input = ''' 
+# Header
+
+Some text.
+
+-----
+
+Some more text
+'''
+		
+		String output = '''
+# Header
+
+Some text.
+
+Some more text
+'''
+		performTransformTest(input, output) {
+			if(it in HorizontalRule) {
 				[]
 			}
 		}
