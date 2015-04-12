@@ -1,5 +1,5 @@
 apply plugin: 'groovy'
-version = '0.1'
+version = '0.2'
 
 ext {
 	groovy = [version: '2.3.10']
@@ -22,4 +22,5 @@ dependencies {
 
 groovydoc {
 	groovyClasspath = configurations.groovyDoc
+	destinationDir = file('gh-pages')
 }

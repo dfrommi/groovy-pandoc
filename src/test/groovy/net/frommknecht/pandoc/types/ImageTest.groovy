@@ -8,6 +8,6 @@ class ImageTest extends TypeTestBase {
 	@Parameters(name = "{index}: {0}")
 	static getParams() { [
 		['![caption](someimage.jpg "altText")',
-		 new Image(title: [new Str("caption")], url: "someimage.jpg", altText: "altText")] as Object[]
+		 new Image(title: [new Str("caption")], url: "someimage.jpg", altText: "fig:altText")] as Object[]
 	]}
 }

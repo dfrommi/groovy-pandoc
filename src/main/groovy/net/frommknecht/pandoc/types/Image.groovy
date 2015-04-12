@@ -25,8 +25,10 @@ class Image implements Inline {
 	def url = ""
 	
 	/**
-	 * Alternate text 
+	 * Alternate text. 
+	 * 
+	 * Use prefix 'fig:' if image is in its own paragraph. Then altText becomes figure caption.  
 	 */
-	@JsonValue(index=2, subindex=2, toJson={"fig:" + it}, fromJson={it - ~/^fig:/})
-	def altText = "fig:"
+	@JsonValue(index=2, subindex=2)
+	def altText = ""
 }
