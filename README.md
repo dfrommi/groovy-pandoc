@@ -36,8 +36,10 @@ If 2 parameters are expected, then first one is still the Pandoc element and sec
 The source code contains some example filters in directory `src/examples`. Let's have a closer look at the Behead example, which transforms all headers with level greater or equal to 2 to a paragraph with emphasized text.
 
 ```groovy
-#!/usr/bin/env groovy -cp GroovyPandoc.jar
+#!/usr/bin/env groovy
 
+@GrabResolver('https://jitpack.io')
+@Grab('com.github.dfrommi:groovy-pandoc')
 import static net.frommknecht.pandoc.Pandoc.*
 import net.frommknecht.pandoc.types.*
 
@@ -57,8 +59,10 @@ If the condition is met, then we return a new `Para` object with `Emph` as only 
 There is a second variant of `toJSONFilter`, expecting a class as first parameter. The Closure is then only called if the element is of given type. With the modifired `toJSONFilter` call, above example would look like this:
 
 ```groovy
-#!/usr/bin/env groovy -cp GroovyPandoc.jar
+#!/usr/bin/env groovy
 
+@GrabResolver('https://jitpack.io')
+@Grab('com.github.dfrommi:groovy-pandoc')
 import static net.frommknecht.pandoc.Pandoc.*
 import net.frommknecht.pandoc.types.*
 

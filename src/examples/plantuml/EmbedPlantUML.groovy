@@ -1,5 +1,7 @@
-#!/usr/bin/env groovy -cp GroovyPandoc.jar
+#!/usr/bin/env groovy
 
+@GrabResolver('https://jitpack.io')
+@Grab('com.github.dfrommi:groovy-pandoc')
 import net.frommknecht.pandoc.types.*;
 import static net.frommknecht.pandoc.Pandoc.*
 
