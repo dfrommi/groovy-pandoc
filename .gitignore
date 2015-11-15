@@ -1,6 +1,7 @@
 # Eclipse settings
 .*
 !.gitignore
+!.travis.yml
 
 # Build directories
 /build/
