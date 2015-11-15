@@ -2,6 +2,7 @@
 .*
 !.gitignore
 !.travis.yml
+*.iml
 
 # Build directories
 /build/
