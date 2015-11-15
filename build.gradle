@@ -9,13 +9,27 @@ repositories {
 	mavenCentral()
 }
 
+sourceSets {
+	integrationTest {
+		groovy {
+			compileClasspath += main.output + test.output
+			runtimeClasspath += main.output + test.output
+			srcDir file('src/integration-test/groovy')
+		}
+		resources.srcDir file('src/integration-test/resources')
+	}
+}
+
 configurations {
 	groovyDoc
- }
+	integrationTestCompile.extendsFrom testCompile
+	integrationTestRuntime.extendsFrom testRuntime
+}
 
 dependencies {
 	compile "org.codehaus.groovy:groovy-all:$groovy.version"
 	testCompile "junit:junit:4.11"
+	integrationTestCompile "junit:junit:4.11"
 	groovyDoc "org.codehaus.groovy:groovy-groovydoc:$groovy.version"
 	groovyDoc "org.codehaus.groovy:groovy-ant:$groovy.version"
 }
@@ -23,4 +37,15 @@ dependencies {
 groovydoc {
 	groovyClasspath = configurations.groovyDoc
 	destinationDir = file('gh-pages')
+}
+
+tasks.withType(Test) {
+	reports.html.destination = file("${reporting.baseDir}/${name}")
+}
+
+task integrationTest(type: Test) {
+	testClassesDir = sourceSets.integrationTest.output.classesDir
+	classpath = sourceSets.integrationTest.runtimeClasspath
+	include '**/*Test.*'
+	outputs.upToDateWhen { false }
 }
