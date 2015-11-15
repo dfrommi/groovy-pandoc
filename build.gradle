@@ -1,5 +1,9 @@
 apply plugin: 'groovy'
+apply plugin: 'maven'
+
 version = '0.2'
+
+group = 'com.github.dfrommi'
 
 ext {
 	groovy = [version: '2.3.10']
