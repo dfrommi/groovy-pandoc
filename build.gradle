@@ -49,3 +49,7 @@ task integrationTest(type: Test) {
 	include '**/*Test.*'
 	outputs.upToDateWhen { false }
 }
+
+task wrapper(type: Wrapper) {
+	gradleVersion = '2.8'
+}
