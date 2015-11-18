@@ -1,5 +1,7 @@
 # Groovy wrapper for Pandoc JSON filters
 
+[![Build Status](https://travis-ci.org/dfrommi/groovy-pandoc.svg?branch=master)](https://travis-ci.org/dfrommi/groovy-pandoc)
+
 [Pandoc](http://johnmacfarlane.net/pandoc/index.html) is the swiss army knife of document conversion, especially when Markdown is somewhere in the game. It supports filters transforming the Pandoc AST after the input is parsed and before the output is written.
 
 This library helps writing filters in Groovy programming language. It has been heavily inspired by [Pandoc filter for Python](https://github.com/jgm/pandocfilters).
