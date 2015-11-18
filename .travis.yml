@@ -1,2 +1,10 @@
+sudo: required
+
 language: groovy
 
+services:
+  - docker
+
+before_install:
+  - docker build -t dfrommi/groovy-pandoc .
+  - docker run -t dfrommi/groovy-pandoc
