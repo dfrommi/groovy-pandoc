@@ -51,6 +51,7 @@ tasks.withType(Test) {
 }
 
 task integrationTest(type: Test) {
+	systemProperties << [ pandoc: project.properties.pandoc ]
 	testClassesDir = sourceSets.integrationTest.output.classesDir
 	classpath = sourceSets.integrationTest.runtimeClasspath
 	include '**/*Test.*'
