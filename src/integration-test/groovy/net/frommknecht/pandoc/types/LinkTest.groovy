@@ -1,10 +1,6 @@
-package net.frommknecht.pandoc.types;
-
-import static org.junit.Assert.*
-import groovy.transform.InheritConstructors;
+package net.frommknecht.pandoc.types
 
 import org.junit.runners.Parameterized.Parameters
-
 
 class LinkTest extends TypeTestBase {
 	@Parameters(name = "{index}: {0}")
@@ -16,6 +12,10 @@ class LinkTest extends TypeTestBase {
 		new Link(url: "/url", text: [new Str("theText")])] as Object[],
 	
 		["[theText](/url 'title')",
-		new Link(url: "/url", text: [new Str("theText")], title: "title")] as Object[]
+		new Link(url: "/url", text: [new Str("theText")], title: "title")] as Object[],
+
+		["[theText](/url 'title'){#id .class width=30px}",
+		 new Link(url: "/url", text: [new Str("theText")], title: "title",
+		 	attr: new Attributes(identifier: 'id', classes: ['class'], properties: [width: '30px']))] as Object[]
 	]}
 }

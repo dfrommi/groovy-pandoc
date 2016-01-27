@@ -8,20 +8,26 @@ import net.frommknecht.pandoc.types.annotation.Pandoc
 /**
  * Image reference
  * 
- * @Example {@code ![caption](someimage.jpg "altText")}
+ * @Example {@code ![caption](someimage.jpg "altText"){#id .class width=30px}}
  */
 @Pandoc
 class Image implements Inline {
 	/**
+	 * The attributes
+	 */
+	@JsonValue(index=1)
+	Attributes attr = new Attributes()
+
+	/**
 	 * The title
 	 */
-	@Child @JsonValue(index=1) 
+	@Child @JsonValue(index=2)
 	Inline[] title = []
 
 	/**
 	 * The image URL
 	 */
-	@JsonValue(index=2, subindex=1)
+	@JsonValue(index=3, subindex=1)
 	def url = ""
 	
 	/**
@@ -29,6 +35,6 @@ class Image implements Inline {
 	 * 
 	 * Use prefix 'fig:' if image is in its own paragraph. Then altText becomes figure caption.  
 	 */
-	@JsonValue(index=2, subindex=2)
+	@JsonValue(index=3, subindex=2)
 	def altText = ""
 }
