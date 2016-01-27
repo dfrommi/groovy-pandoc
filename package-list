@@ -1,5 +1,5 @@
-net.frommknecht.pandoc
-net.frommknecht.pandoc.convert
-net.frommknecht.pandoc.types
-net.frommknecht.pandoc.types.annotation
-net.frommknecht.pandoc.util
+com.github.dfrommi.pandoc
+com.github.dfrommi.pandoc.convert
+com.github.dfrommi.pandoc.types
+com.github.dfrommi.pandoc.types.annotation
+com.github.dfrommi.pandoc.util
