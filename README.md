@@ -15,9 +15,9 @@ pandoc -f SOURCEFORMAT -t TARGETFORMAT --filter ./Behead.groovy
 Filter script `Behead.groovy` has to be executable. For more details on Pandoc filters see [Pandoc scripting guide](http://johnmacfarlane.net/pandoc/scripting.html)
 
 ## Development guide
-The GroovyPandoc library is not working on plain JSON format, but instead converts it to object tree. Each Pandoc element has a corresponding Groovy class. See package `net.frommknecht.pandoc.types` in [library's GroovyDoc](http://dfrommi.github.io/groovy-pandoc/) for details.
+The GroovyPandoc library is not working on plain JSON format, but instead converts it to object tree. Each Pandoc element has a corresponding Groovy class. See package `com.github.dfrommi.pandoc.types` in [library's GroovyDoc](http://dfrommi.github.io/groovy-pandoc/) for details.
 
-The filter entry point is the static method `toJSONFilter` of class `net.frommknecht.pandoc.Pandoc`. It walks through Pandoc AST using breadth first search and calls the provided closure for each element. Typically, the filter closure first checks if the element is of interest and then transforms it.
+The filter entry point is the static method `toJSONFilter` of class `Pandoc`. It walks through Pandoc AST using breadth first search and calls the provided closure for each element. Typically, the filter closure first checks if the element is of interest and then transforms it.
 
 ### AST transformation
 The modification done on Pandoc AST depends on closure's return value:
@@ -32,7 +32,7 @@ Two types of closures are supported.
 
 If transformation closure expects one parameter, then the Pandoc element is passed. 
 
-If 2 parameters are expected, then first one is still the Pandoc element and second is metadata object (`net.frommknecht.pandoc.types.Meta`), which is a representation of YAML metadata at beginning of document.
+If 2 parameters are expected, then first one is still the Pandoc element and second is metadata object (`Meta`), which is a representation of YAML metadata at beginning of document.
  
 ### Example
 The source code contains some example filters in directory `src/examples`. Let's have a closer look at the Behead example, which transforms all headers with level greater or equal to 2 to a paragraph with emphasized text.
@@ -42,8 +42,8 @@ The source code contains some example filters in directory `src/examples`. Let's
 
 @GrabResolver('https://jitpack.io')
 @Grab('com.github.dfrommi:groovy-pandoc')
-import static net.frommknecht.pandoc.Pandoc.*
-import net.frommknecht.pandoc.types.*
+import static Pandoc.*
+import com.github.dfrommi.pandoc.types.*
 
 toJSONFilter { 
 	if(it in Header && it.level >= 2) {
@@ -65,8 +65,8 @@ There is a second variant of `toJSONFilter`, expecting a class as first paramete
 
 @GrabResolver('https://jitpack.io')
 @Grab('com.github.dfrommi:groovy-pandoc')
-import static net.frommknecht.pandoc.Pandoc.*
-import net.frommknecht.pandoc.types.*
+import static Pandoc.*
+import com.github.dfrommi.pandoc.types.*
 
 toJSONFilter(Header) { Header h -> 
 	if(h.level >= 2) {

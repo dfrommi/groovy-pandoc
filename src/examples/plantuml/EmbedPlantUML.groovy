@@ -1,11 +1,10 @@
 #!/usr/bin/env groovy
-
 @GrabResolver('https://jitpack.io')
 @Grab('com.github.dfrommi:groovy-pandoc')
-import net.frommknecht.pandoc.types.*;
-import static net.frommknecht.pandoc.Pandoc.*
+import com.github.dfrommi.pandoc.types.*;
+import static com.github.dfrommi.pandoc.Pandoc.*
 
-toJSONFilter({it in CodeBlock && "plantuml" in it.attr.classes}) { 
+toJSONFilter({it in CodeBlock && "plantuml" in it.attr.classes}) {
 	def plantuml = "plantuml -pipe -tsvg".execute()
 	plantuml.withWriter { w ->
 		w << it.code
