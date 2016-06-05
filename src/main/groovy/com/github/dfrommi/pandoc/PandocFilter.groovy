@@ -104,11 +104,18 @@ class PandocFilter {
 
 		(res as List).each { currentRes ->
 			currentRes.children.each{ key, childValues ->
-				currentRes[key] = childValues.collect { child ->
+				// key is 'content'
+				def replacedSingleByList = false
+				def childResult = childValues.collect { child ->
 					def walkResult = walk(child, meta, action)
 					// ?: not possible, because false has to return walkResult
+					if(walkResult in List && !(child in List)) {
+						replacedSingleByList = true
+					}
+
 					walkResult != null ? walkResult : child
-				}.flatten()
+				}
+				currentRes[key] = replacedSingleByList ? childResult.flatten() : childResult
 			}
 		}
 	
