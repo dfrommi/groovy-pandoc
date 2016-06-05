@@ -130,7 +130,23 @@ Some code
 		assertEqualJson(input, result)
 		assertEquals(expectedSequence, classSequence)
 	}
-		
+
+	@Test
+	public void testJsonCopyConversion() {
+		(1..12).each { i ->
+			String mdInput = this.getClass().getResourceAsStream("/test-${i}.md").text
+			String input = converter.mdToJsonText(mdInput)
+			def outContent = hijackStreams(input)
+
+			filter.toJSONFilter { elem ->
+				elem
+			}
+
+			String result = outContent.toString()
+			assertEqualJson(input, result)
+		}
+	}
+
 	/**
 	 * Assert same Json by parsing to data structure before comparison
 	 * @param expected Expected json text
@@ -144,7 +160,7 @@ Some code
 	} 
 	
 		
-	private OutputStream hijackStreams(String inputText) {
+	static private OutputStream hijackStreams(String inputText) {
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream()
 		ByteArrayInputStream inContent = new ByteArrayInputStream(inputText.getBytes())
 
