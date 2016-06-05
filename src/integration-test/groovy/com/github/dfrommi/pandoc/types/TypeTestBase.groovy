@@ -25,7 +25,7 @@ abstract class TypeTestBase {
 		findJsonElement(getJsonType(obj), document)
 	}
 	
-	protected getJsonType(object) {
+	static protected getJsonType(object) {
 		object.getClass().simpleName as String
 	}
 	
@@ -55,13 +55,13 @@ abstract class TypeTestBase {
 	void testInitFromJsonValue() {
 		def json = getJsonElement()
 		def newObject = converter.jsonToElement(json)
-		assertEquals(obj, newObject)
+		assert obj == newObject
 	}
 
 	@Test
 	void testGetJsonValue() {
 		def jsonResult = converter.elementToJson(obj)
 		def expectedJson = getJsonElement()
-		assertEquals(expectedJson, jsonResult)
+		assert expectedJson == jsonResult
 	}
 }
