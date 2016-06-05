@@ -1,5 +1,7 @@
 package com.github.dfrommi.pandoc.util
 
+import groovy.transform.Memoized
+
 /**
  * Some helper methods to simplify annotation processing.
  */
@@ -10,6 +12,7 @@ class AnnotationHelper {
 	 * @param annotation The annotation-
 	 * @return Listof AnnotatedFieldInfo objects.
 	 */
+	@Memoized
 	static findAllFieldsWithAnnotation(Class targetClass, Class annotation) {
 		def result = []
 		
@@ -32,6 +35,7 @@ class AnnotationHelper {
 	 * @param upTo Search stops at this class latest.
 	 * @return The list of classes
 	 */
+	@Memoized
 	static Class<?>[] getAllClasses(Class targetClass, Class<?> upTo = Object) {
 		Class currentClass = targetClass
 		def classes = [currentClass]
