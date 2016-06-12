@@ -8,7 +8,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * 
  * @Example {@code The Text is **strong**.}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class Strong extends PandocTextElement implements Inline {
 
 }

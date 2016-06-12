@@ -8,7 +8,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * 
  * @Example {@code The Text is ~~deleted~~.}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class Strikeout extends PandocTextElement implements Inline {
 
 }

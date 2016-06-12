@@ -8,7 +8,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * 
  * @Example {@code H~2~O is water.}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class Subscript extends PandocTextElement implements Inline {
 
 }

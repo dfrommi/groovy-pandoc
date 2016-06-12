@@ -8,6 +8,6 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * 
  * @Example {@code This is `Some code`{#mycode .haskell .numberLines startFrom="100" endAt="200"}}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class Code extends CodeBase implements Inline {
 }

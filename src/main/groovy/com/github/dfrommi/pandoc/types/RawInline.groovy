@@ -8,7 +8,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  *
  * @Example {@code Some <svg>text</svg>}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class RawInline extends RawBase implements Inline {
 
 }

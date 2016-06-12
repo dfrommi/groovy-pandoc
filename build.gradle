@@ -35,8 +35,8 @@ configurations {
 
 dependencies {
 	compile "org.codehaus.groovy:groovy-all:$groovy.version"
-	testCompile "junit:junit:4.11"
-	integrationTestCompile "junit:junit:4.11"
+	testCompile "org.spockframework:spock-core:1.0-groovy-2.4"
+	integrationTestCompile "org.spockframework:spock-core:1.0-groovy-2.4"
 	groovyDoc "org.codehaus.groovy:groovy-groovydoc:$groovy.version"
 	groovyDoc "org.codehaus.groovy:groovy-ant:$groovy.version"
 }
@@ -54,7 +54,7 @@ task integrationTest(type: Test) {
 	systemProperties << [ pandoc: project.properties.pandoc ]
 	testClassesDir = sourceSets.integrationTest.output.classesDir
 	classpath = sourceSets.integrationTest.runtimeClasspath
-	include '**/*Test.*'
+	include '**/*Spec.*'
 	outputs.upToDateWhen { false }
 }
 

@@ -7,6 +7,6 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * 
  * @Example {@code Some *emph* text.}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class Emph extends PandocTextElement implements Inline {
 }

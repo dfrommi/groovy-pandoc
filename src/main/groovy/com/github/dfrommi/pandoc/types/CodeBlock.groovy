@@ -11,7 +11,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * ```
  * }</pre>
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class CodeBlock extends CodeBase implements Block {
 
 }

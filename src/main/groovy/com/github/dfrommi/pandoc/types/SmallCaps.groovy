@@ -8,7 +8,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * 
  * @Example {@code Here are <span style="font-variant:small-caps;">smallcaps</span>}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class SmallCaps extends PandocTextElement implements Inline {
 
 }

@@ -8,7 +8,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * 
  * @Example {@code 2^10^ is 1024.}
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class Superscript extends PandocTextElement implements Inline {
 
 }

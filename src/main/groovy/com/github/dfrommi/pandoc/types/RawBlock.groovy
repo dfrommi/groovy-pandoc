@@ -12,7 +12,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  * <svg>text</svg>
  * }</pre>
  */
-@Pandoc
+@Pandoc(callSuper = true, includeSuper = true)
 class RawBlock extends RawBase implements Block {
 
 }
