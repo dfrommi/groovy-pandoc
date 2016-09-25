@@ -7,16 +7,17 @@ import com.github.dfrommi.pandoc.types.HorizontalRule
 import com.github.dfrommi.pandoc.types.Para
 import com.github.dfrommi.pandoc.types.Space
 import com.github.dfrommi.pandoc.types.Str
+import spock.lang.IgnoreRest
+import spock.lang.Shared
+import spock.lang.Specification
+import spock.lang.Unroll
 
-import static org.junit.Assert.assertEquals
-
-
-class PandocFilterSpec {
+class PandocFilterSpec extends Specification {
 	def oldSystemIn = null
 	def oldSystemOut = null
 	
-	PandocFilter filter = Pandoc.factory.filter
-	PandocConverter converter = Pandoc.factory.converter
+	@Shared PandocFilter filter = Pandoc.factory.filter
+	@Shared PandocConverter converter = Pandoc.factory.converter
 	
 	def setup() {
 		oldSystemIn = System.in
@@ -27,129 +28,80 @@ class PandocFilterSpec {
 		System.in = oldSystemIn
 		System.out = oldSystemOut
 	}
-	
-  def "toJSONFilter transformation replaces elements"() {
-		performTransformTest("Hello world", "HELLO WORLD") {
-			if(it in Str) {
-				new Str(it.text.toUpperCase())
-			}
-		}
-	}
 
-  def "toJSONFilter transformation removes text elements"() {
-		performTransformTest("Hello world", "Hello") {
-			if((it in Str && it.text == "world") || it in Space)  {
-				[]
-			}
-		}
-	}
+  @Unroll @IgnoreRest
+  def "toJSONFilter transformation #action elements"() {
+    given:
+    String input = converter.mdToJsonText(mdInput)
+    String expected = converter.mdToJsonText(mdExpectedResult)
+    def expectedJson = converter.jsonTextToJson(expected)
 
-  def "toJSONFilter transformation removes elements"() {
-		String input = '''
-# Header
+    def outContent = hijackStreams(input)
 
-Some text.
+    when:
+    filter.toJSONFilter(transformation)
 
------
+    then:
+    String result = outContent.toString()
+    def actualJson = converter.jsonTextToJson(result)
 
-Some more text
-'''
-		
-		String output = '''
-# Header
+    expectedJson == actualJson
 
-Some text.
+    where:
+    [action, mdInput, mdExpectedResult, transformation] << [
+//      ["replaces", "Hello world", "HELLO WORLD", { if(it in Str) new Str(it.text.toUpperCase()) }],
+//      ["removes text", "Hello world", "Hello", { if((it in Str && it.text == "world") || it in Space) []} ],
+//      ["adds", "Hello world", "Good morning world", { if (it in Str && it.text == "Hello") [new Str("Good"), new Space(), new Str("morning")] }],
+      ["replaces multiple", "# Some header\n\nSome text,", "Header line 1\nHeader line 2", { if(it in Header) [new Para(new Str("Header line 1")), new Para(new Str("Header line 2"))] }],
+//      ["removes","# Header\n\nSome text.\n\n-----\n\nSome more text", "# Header\n\nSome text.\n\nSome more text", {if(it in HorizontalRule) [] } ]
+    ]
+  }
 
-Some more text
-'''
-		performTransformTest(input, output) {
-			if(it in HorizontalRule) {
-				[]
-			}
-		}
-	}
+  def "toJSONFilter processes elements in correct sequence"() {
+    given:
+    String input = converter.mdToJsonText(mdInput)
+    def classSequence = []
+    hijackStreams(input)
 
-  def "toJSONFilter transformation adds elements"() {
-		performTransformTest("Hello world", "Good morning world") {
-			if (it in Str && it.text == "Hello")  {
-				[new Str("Good"), new Space(), new Str("morning")]
-			}
-		}
-	}
+    when:
+    filter.toJSONFilter({
+      classSequence << it.getClass()
+      null
+    })
 
-	private performTransformTest(String mdInput, String mdExpectedResult, Closure transformation) {
-		String input = converter.mdToJsonText(mdInput)
-		String expected = converter.mdToJsonText(mdExpectedResult)
-		
-		def outContent = hijackStreams(input)
+    then:
+    classSequence == expectedSequence
 
-		filter.toJSONFilter(transformation)
-		
-		String result = outContent.toString()
-		assertEqualJson(expected, result)
-	}
-
-	
-	
-  def "toJSONFilter processes elements in correct order"() {
-		performFlowTest("Hello world", [Para, Str, Space, Str])
-		performFlowTest('''
-# Header
-
-Some paragraph
-
-```
-Some code
-```
-''', 
-		[Header, Para, CodeBlock, Str /*from header*/, Str, Space, Str])
-	}
-
-	private performFlowTest(String mdInput, expectedSequence) {
-		def classSequence = []
-		
-		String input = converter.mdToJsonText(mdInput)
-		def outContent = hijackStreams(input)
-
-		filter.toJSONFilter {
-			classSequence << it.getClass()
-			null
-		}
-
-		String result = outContent.toString()
-		assertEqualJson(input, result)
-		assertEquals(expectedSequence, classSequence)
-	}
+    where:
+    mdInput | expectedSequence
+    "Hello world" | [Para, Str, Space, Str]
+    "# Header\n\nSome paragraph\n\n```\nSome code\n```\n" | [Header, Para, CodeBlock, Str /*from header*/, Str, Space, Str]
+  }
 
   def "toJSONFilter transformation copies elements"() {
-      (1..12).each { i ->
+    given:
 			String mdInput = this.getClass().getResourceAsStream("/test-${i}.md").text
 			String input = converter.mdToJsonText(mdInput)
-			def outContent = hijackStreams(input)
+      def expectedJson = converter.jsonTextToJson(input)
 
+      def outContent = hijackStreams(input)
+
+    when:
 			filter.toJSONFilter { elem ->
 				elem
 			}
 
+    then:
 			String result = outContent.toString()
-			assertEqualJson(input, result)
-		}
+      def actualJson = converter.jsonTextToJson(result)
+
+      expectedJson == actualJson
+
+    where:
+      i << (1..13)
 	}
 
-	/**
-	 * Assert same Json by parsing to data structure before comparison
-	 * @param expected Expected json text
-	 * @param actual Actual json text
-	 */
-	private assertEqualJson(String expected, String actual) {
-		def expectedJson = converter.jsonTextToJson(expected)
-		def actualJson = converter.jsonTextToJson(actual)
-		
-		assertEquals(expectedJson, actualJson)
-	} 
-	
-		
-	static private OutputStream hijackStreams(String inputText) {
+  static private OutputStream hijackStreams(String inputText) {
 		ByteArrayOutputStream outContent = new ByteArrayOutputStream()
 		ByteArrayInputStream inContent = new ByteArrayInputStream(inputText.getBytes())
 

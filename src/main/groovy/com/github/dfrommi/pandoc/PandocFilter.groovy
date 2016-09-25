@@ -96,27 +96,34 @@ class PandocFilter {
 		def res
 		if(node in List) {
 			res = node.collect {
-				callActionWithOptionalMeta(it, meta, action)
+				def transformedResult = callActionWithOptionalMeta(it, meta, action)
+        transformedResult
 			}.findAll { it != [] }
 		} else {
 			res = callActionWithOptionalMeta(node, meta, action)
 		}
 
 		(res as List).each { currentRes ->
-			currentRes.children.each{ key, childValues ->
-				// key is 'content'
-				def replacedSingleByList = false
-				def childResult = childValues.collect { child ->
-					def walkResult = walk(child, meta, action)
-					// ?: not possible, because false has to return walkResult
-					if(walkResult in List && !(child in List)) {
-						replacedSingleByList = true
-					}
+      currentRes.children.each{ key, childValues ->
+        // key is property name
+        def replacedSingleByList = false
 
-					walkResult != null ? walkResult : child
-				}
-				currentRes[key] = replacedSingleByList ? childResult.flatten() : childResult
-			}
+        def walkResult
+        def childResult = childValues.collect { child ->
+          if (isCollectionOrArray(child)) {
+            walkResult = child.collect { walk(it, meta, action) }
+          } else {
+            walkResult = walk(child, meta, action)
+            // ?: not possible, because false has to return walkResult
+            if(walkResult in List && !(child in List)) {
+              replacedSingleByList = true
+            }
+          }
+
+          walkResult != null ? walkResult : child
+        }
+        currentRes[key] = replacedSingleByList ? childResult.flatten() : childResult
+      }
 		}
 	
 		res
@@ -135,4 +142,8 @@ class PandocFilter {
 	private hasMetaParam(Closure action) {
 		action.maximumNumberOfParameters > 1
 	}
+
+  boolean isCollectionOrArray(object) {
+    [Collection, Object[]].any { it.isAssignableFrom(object.getClass()) }
+  }
 }
