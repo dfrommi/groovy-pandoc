@@ -2,6 +2,7 @@ package com.github.dfrommi.pandoc
 
 import com.github.dfrommi.pandoc.convert.PandocConverter
 import com.github.dfrommi.pandoc.types.PandocType
+import com.github.dfrommi.pandoc.util.Walkable
 
 class PandocFilter {
 	/**
@@ -90,45 +91,44 @@ class PandocFilter {
 	 * @param node current mode
 	 * @param meta Metadata object
 	 * @param action The action closure to perform on node objects
-	 * @return The modified node
+	 * @return The modified node, never `null`
 	 */
 	def walk(node, meta, action) {
-		def res
-		if(node in List) {
-			res = node.collect {
-				def transformedResult = callActionWithOptionalMeta(it, meta, action)
-        transformedResult
-			}.findAll { it != [] }
-		} else {
-			res = callActionWithOptionalMeta(node, meta, action)
-		}
-
-		(res as List).each { currentRes ->
-      currentRes.children.each{ key, childValues ->
-        // key is property name
-        def replacedSingleByList = false
-
-        def walkResult
-        def childResult = childValues.collect { child ->
-          if (isCollectionOrArray(child)) {
-            walkResult = child.collect { walk(it, meta, action) }
-          } else {
-            walkResult = walk(child, meta, action)
-            // ?: not possible, because false has to return walkResult
-            if(walkResult in List && !(child in List)) {
-              replacedSingleByList = true
-            }
-          }
-
-          walkResult != null ? walkResult : child
-        }
-        currentRes[key] = replacedSingleByList ? childResult.flatten() : childResult
+    // If list came in, list is also returned
+		if(isCollectionOrArray(node)) {
+      def nodeList = node as List
+      def transformedNodeList = nodeList.collectMany { // a single node can be replaced by multiple, therefore collectMany
+        def currentResult = walk(it, meta, action)
+        // Automatically flatten if one node has been replaced by multiple nodes
+        (!isCollectionOrArray(it) && isCollectionOrArray(currentResult)) ? currentResult as List : [currentResult]
       }
-		}
-	
-		res
+      return transformedNodeList
+    }
+
+    // Transformation of a single node
+
+    def transformedResult = callActionWithOptionalMeta(node, meta, action)
+
+    // `null` means no modification.
+    // Result [] (=removing element) is handled in the caller (see collectMany)
+    if (transformedResult == null) {
+      transformedResult = node
+    }
+
+    // Transform all children
+
+    // transformation can be one node or a node list, but never a deeply nested list
+    (transformedResult as List).each { Walkable transformedNode ->
+      transformedNode.children.each { propertyName, childValues ->
+        // key is the property name, value is the child or list of children
+        def childResult = walk(childValues, meta, action)
+        transformedNode."$propertyName" = childResult
+      }
+    }
+
+    transformedResult
 	}
-	
+
 	private callActionWithOptionalMeta(node, meta, action) {
 		def actionResult = hasMetaParam(action) ? action(node, meta) : action(node)
 		actionResult != null ? actionResult : node

@@ -7,7 +7,6 @@ import com.github.dfrommi.pandoc.types.HorizontalRule
 import com.github.dfrommi.pandoc.types.Para
 import com.github.dfrommi.pandoc.types.Space
 import com.github.dfrommi.pandoc.types.Str
-import spock.lang.IgnoreRest
 import spock.lang.Shared
 import spock.lang.Specification
 import spock.lang.Unroll
@@ -29,7 +28,7 @@ class PandocFilterSpec extends Specification {
 		System.out = oldSystemOut
 	}
 
-  @Unroll @IgnoreRest
+  @Unroll //@IgnoreRest
   def "toJSONFilter transformation #action elements"() {
     given:
     String input = converter.mdToJsonText(mdInput)
@@ -45,19 +44,19 @@ class PandocFilterSpec extends Specification {
     String result = outContent.toString()
     def actualJson = converter.jsonTextToJson(result)
 
-    expectedJson == actualJson
+    actualJson == expectedJson
 
     where:
     [action, mdInput, mdExpectedResult, transformation] << [
-//      ["replaces", "Hello world", "HELLO WORLD", { if(it in Str) new Str(it.text.toUpperCase()) }],
-//      ["removes text", "Hello world", "Hello", { if((it in Str && it.text == "world") || it in Space) []} ],
-//      ["adds", "Hello world", "Good morning world", { if (it in Str && it.text == "Hello") [new Str("Good"), new Space(), new Str("morning")] }],
-      ["replaces multiple", "# Some header\n\nSome text,", "Header line 1\nHeader line 2", { if(it in Header) [new Para(new Str("Header line 1")), new Para(new Str("Header line 2"))] }],
-//      ["removes","# Header\n\nSome text.\n\n-----\n\nSome more text", "# Header\n\nSome text.\n\nSome more text", {if(it in HorizontalRule) [] } ]
+      ["replaces", "Hello world", "HELLO WORLD", { if(it in Str) new Str(it.text.toUpperCase()) }],
+      ["removes text", "Hello world", "Hello", { if((it in Str && it.text == "world") || it in Space) []} ],
+      ["adds", "Hello world", "Good morning world", { if (it in Str && it.text == "Hello") [new Str("Good"), new Space(), new Str("morning")] }],
+      ["replaces multiple", "# Some header\n\nSome text", "Header1\n\nHeader2\n\nSome text", { if(it in Header) [new Para(new Str("Header1")), new Para(new Str("Header2"))] }],
+      ["removes","# Header\n\nSome text.\n\n-----\n\nSome more text", "# Header\n\nSome text.\n\nSome more text", {if(it in HorizontalRule) [] } ]
     ]
   }
 
-  def "toJSONFilter processes elements in correct sequence"() {
+  def "toJSONFilter processes elements in DFS sequence"() {
     given:
     String input = converter.mdToJsonText(mdInput)
     def classSequence = []
@@ -75,30 +74,30 @@ class PandocFilterSpec extends Specification {
     where:
     mdInput | expectedSequence
     "Hello world" | [Para, Str, Space, Str]
-    "# Header\n\nSome paragraph\n\n```\nSome code\n```\n" | [Header, Para, CodeBlock, Str /*from header*/, Str, Space, Str]
+    "# Header\n\nSome paragraph\n\n```\nSome code\n```\n" | [Header, Str, Para, Str, Space, Str, CodeBlock]
   }
 
-  def "toJSONFilter transformation copies elements"() {
+  @Unroll
+  def "toJSONFilter transformation of test document #i transforms successfully"() {
     given:
-			String mdInput = this.getClass().getResourceAsStream("/test-${i}.md").text
-			String input = converter.mdToJsonText(mdInput)
-      def expectedJson = converter.jsonTextToJson(input)
-
-      def outContent = hijackStreams(input)
+    String mdInput = this.getClass().getResourceAsStream("/test-${i}.md").text
+    String input = converter.mdToJsonText(mdInput)
+    def expectedJson = converter.jsonTextToJson(input)
+    def outContent = hijackStreams(input)
 
     when:
-			filter.toJSONFilter { elem ->
-				elem
-			}
+    filter.toJSONFilter { elem ->
+      elem
+    }
 
     then:
-			String result = outContent.toString()
-      def actualJson = converter.jsonTextToJson(result)
+    String result = outContent.toString()
+    def actualJson = converter.jsonTextToJson(result)
 
-      expectedJson == actualJson
+    actualJson == expectedJson
 
     where:
-      i << (1..13)
+    i << (1..13)
 	}
 
   static private OutputStream hijackStreams(String inputText) {
