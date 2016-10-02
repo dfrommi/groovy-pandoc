@@ -3,8 +3,7 @@
 This is coming from inside a groovy template.
 
 <%
-System.out << "Hello from Groovy. A templating system is a powerful documentation tool.\n\n"
-
+out << "Groovy templates can be a powerful documentation tool\n\n"
 (0..5).each { n ->
 %>
 
