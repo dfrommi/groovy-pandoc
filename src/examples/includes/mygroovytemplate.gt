@@ -1,0 +1,14 @@
+#My Groovy Template
+
+This is coming from inside a groovy template.
+
+<%
+out << "Groovy templates can be a powerful documentation tool\n\n"
+(0..5).each { n ->
+%>
+
+Count is ${n}
+
+<%
+}
+%>
