@@ -27,8 +27,11 @@ class JsonToPandocTypeConverter implements JsonTypeConverter {
 	 * @see JsonTypeConverter#toJson(java.lang.Object)
 	 */
 	def toJson(obj) {
-		[c:getJsonValue(obj), t:getJsonType(obj)]
-	}
+    def value = getJsonValue(obj)
+		return value ?
+      [c:value, t:getJsonType(obj)] :
+      [t:getJsonType(obj)]
+  }
 	
 	/**
 	 * Get the json type from object.
@@ -170,7 +173,7 @@ class JsonToPandocTypeConverter implements JsonTypeConverter {
 			case PandocType:
 				return getJsonValue(property)
 			case Enum:
-				return [t:property as String, c:[]]
+				return [t:property as String]
 			default:
 				return property
 		}

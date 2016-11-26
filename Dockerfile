@@ -8,7 +8,7 @@ COPY . /groovy-pandoc
 
 # Update tp latest version of pandoc.
 # TODO: use Ubuntu image directly or a texlive image (if tex is required)
-RUN wgethttps://github.com/jgm/pandoc/releases/download/1.17.2/pandoc-1.17.2-1-amd64.deb && \
+RUN wget https://github.com/jgm/pandoc/releases/download/1.18/pandoc-1.18-1-amd64.deb && \
     dpkg -i pandoc* && \
     rm pandoc* && \
     apt-get clean

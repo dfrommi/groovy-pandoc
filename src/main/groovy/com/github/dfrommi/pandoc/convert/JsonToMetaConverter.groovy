@@ -26,7 +26,7 @@ class JsonToMetaConverter implements JsonTypeConverter{
 	 * @see JsonTypeConverter#toJson(java.lang.Object)
 	 */
 	def toJson(meta) {
-		[unMeta: metadataToJson(meta)]
+		metadataToJson(meta)
 	}
 	
 	/**
@@ -38,7 +38,7 @@ class JsonToMetaConverter implements JsonTypeConverter{
 	 */
 	private initFromJson(Meta meta, json) {
 		meta.metadata = [:]
-		json.unMeta.each {k, v ->
+		json.each {k, v ->
 			meta.metadata[k] = jsonToInt(v)
 		}
 		meta

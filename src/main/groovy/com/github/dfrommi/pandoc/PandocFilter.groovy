@@ -79,9 +79,9 @@ class PandocFilter {
 	 * @param action Closure to perform action on object.  
 	 */
 	def toJSONFilter(Closure action) {
-		def (meta, elements) = converter.jsonTextToDocument(System.in.text)
-		def res = walk(elements, meta, action)
-		def jsonRes = converter.documentToJsonText([meta, res])
+    def document = converter.jsonTextToDocument(System.in.text)
+		document.blocks = walk(document.blocks, document.meta, action)
+		def jsonRes = converter.documentToJsonText(document)
 		print jsonRes
 	}
 	

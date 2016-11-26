@@ -67,19 +67,24 @@ class PandocConverter {
 	 * @param json the json structure
 	 * @return the document
 	 */
-	def jsonToDocument(json) {
-		[jsonToMetaConverter.fromJson(json[0]),
-		 json[1].collect {jsonToElement(it)}]
-	}
-	
-	/**
+  def jsonToDocument(Map json) {
+    def res = json.findAll { true } // Map copy
+    res.meta = jsonToMetaConverter.fromJson(json.meta)
+    res.blocks = json.blocks.collect { jsonToElement(it) }
+    res
+  }
+
+  /**
 	 * Document ([Meta, [Pandoc elements]]) to json structure
 	 * 
 	 * @param obj the document
 	 * @return the json structure
 	 */
 	def documentToJson(obj) {
-		[jsonToMetaConverter.toJson(obj[0]), obj[1].collect{elementToJson(it)}]
+    def res = obj.findAll {true}
+    res.meta = jsonToMetaConverter.toJson(obj.meta)
+    res.blocks = obj.blocks.collect{elementToJson(it)}
+    res
 	}
 
 	/**

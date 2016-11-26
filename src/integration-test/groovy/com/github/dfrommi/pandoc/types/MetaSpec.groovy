@@ -57,13 +57,13 @@ references:
 		PandocConverter converter = Pandoc.factory.converter
 		JsonToMetaConverter metaConverter = Pandoc.factory.jsonToMetaConverter
 		def document = converter.mdToJson(md)
-    def meta = metaConverter.fromJson(document[0])
+    def meta = metaConverter.fromJson(document.meta)
 
     when:
 		def result = metaConverter.toJson(meta)
 
     then:
-		document[0] == result
+		document.meta == result
 
     where:
     md << parameters

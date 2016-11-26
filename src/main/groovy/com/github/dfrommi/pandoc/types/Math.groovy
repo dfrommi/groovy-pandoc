@@ -14,7 +14,7 @@ class Math implements Inline {
 	/**
 	 * Inline math (true) or block math (false) 
 	 */
-	@JsonValue(index=1, toJson={[t: it ? "InlineMath" : "DisplayMath", c:[]]}, fromJson={it.t == "InlineMath"})
+	@JsonValue(index=1, toJson={[t: it ? "InlineMath" : "DisplayMath"]}, fromJson={it.t == "InlineMath"})
 	boolean inline = true
 	
 	/**
