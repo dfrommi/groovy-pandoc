@@ -7,17 +7,18 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
 
 /**
  * Definition list.
- * 
- * @Example <pre>{@code 
- *  head
+ *
+ * @Example <pre>{@code
+ * head
  *    ~ value
- * }</pre>
+ *}</pre>
  */
 @Pandoc
 class DefinitionList implements Block {
-	/**
-	 * List of definition items.
-	 */
-	@Child @JsonValue 
-	DefinitionItem[] items = []
+  /**
+   * List of definition items.
+   */
+  @Child
+  @JsonValue
+  DefinitionItem[] items = []
 }

@@ -7,15 +7,15 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
 
 /**
  * Block Quote.
- * 
+ *
  * @Example {@code > aBlockQuote}
  */
 @Pandoc
 class BlockQuote implements Block {
-	/**
-	 * The quote content.
-	 */
-	@Child 
-	@JsonValue
-	Block[] quote = []
+  /**
+   * The quote content.
+   */
+  @Child
+  @JsonValue
+  Block[] quote = []
 }

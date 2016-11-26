@@ -10,9 +10,10 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  */
 @Pandoc
 class Para implements Block {
-	/**
-	 * Paragraph content.
-	 */
-	@Child @JsonValue
-	Inline[] content = []
+  /**
+   * Paragraph content.
+   */
+  @Child
+  @JsonValue
+  Inline[] content = []
 }

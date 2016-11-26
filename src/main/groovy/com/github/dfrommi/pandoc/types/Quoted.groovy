@@ -10,23 +10,24 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  */
 @Pandoc
 class Quoted implements Inline {
-	/**
-	 * Quotation types
-	 */
-	enum QuoteType {
-		SingleQuote,
-		DoubleQuote
-	}
+  /**
+   * Quotation types
+   */
+  enum QuoteType {
+    SingleQuote,
+    DoubleQuote
+  }
 
-	/**
-	 * Quotation type
-	 */
-	@JsonValue(index=1)	
-	QuoteType type = QuoteType.SingleQuote
-	
-	/**
-	 * Quoted text 
-	 */
-	@Child	@JsonValue(index=2)	
-	Inline[] text = []
+  /**
+   * Quotation type
+   */
+  @JsonValue(index = 1)
+  QuoteType type = QuoteType.SingleQuote
+
+  /**
+   * Quoted text
+   */
+  @Child
+  @JsonValue(index = 2)
+  Inline[] text = []
 }

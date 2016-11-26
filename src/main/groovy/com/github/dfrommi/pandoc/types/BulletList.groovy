@@ -7,18 +7,18 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
 
 /**
  * Bullet list.
- * 
- * @Example <pre>{@code 
+ *
+ * @Example <pre>{@code
  * - one
  * - two
- * }</pre>
+ *}</pre>
  */
 @Pandoc
 class BulletList implements Block {
-	/**
-	 * List of items, each item a list of Blocks.
-	 */
-	@Child
-	@JsonValue
-	Block[][] items = [][]
+  /**
+   * List of items, each item a list of Blocks.
+   */
+  @Child
+  @JsonValue
+  Block[][] items = [][]
 }

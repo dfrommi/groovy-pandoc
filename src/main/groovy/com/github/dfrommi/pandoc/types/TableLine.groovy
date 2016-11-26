@@ -6,6 +6,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
 
 @Pandoc
 public class TableLine implements PandocType {
-	@Child @JsonValue
-	Block[][] cells = [][]
+  @Child
+  @JsonValue
+  Block[][] cells = [][]
 }

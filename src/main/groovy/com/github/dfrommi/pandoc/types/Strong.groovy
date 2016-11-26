@@ -5,7 +5,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
 
 /**
  * Strong text
- * 
+ *
  * @Example {@code The Text is **strong**.}
  */
 @Pandoc(callSuper = true, includeSuper = true)

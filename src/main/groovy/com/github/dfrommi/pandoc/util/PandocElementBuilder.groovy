@@ -1,17 +1,13 @@
 package com.github.dfrommi.pandoc.util
 
-import com.github.dfrommi.pandoc.types.Emph
-import com.github.dfrommi.pandoc.types.Header
-import com.github.dfrommi.pandoc.types.PandocType
-import com.github.dfrommi.pandoc.types.Para
-import com.github.dfrommi.pandoc.types.Str
+import com.github.dfrommi.pandoc.types.*
 
 class PandocElementBuilder {
   def elements = []
 
   private PandocType[] getPandocElements(Closure closure) {
     def h = new PandocElementBuilder()
-	DslHelper.doClosure(h, closure)
+    DslHelper.doClosure(h, closure)
     h.elements
   }
 

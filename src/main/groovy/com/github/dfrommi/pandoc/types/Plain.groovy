@@ -10,9 +10,10 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  */
 @Pandoc
 class Plain implements Block {
-	/**
-	 * Content
-	 */
-	@Child @JsonValue
-	Inline[] content = []
+  /**
+   * Content
+   */
+  @Child
+  @JsonValue
+  Inline[] content = []
 }

@@ -9,7 +9,7 @@ import groovy.transform.ToString
  * Annotation collector for pandoc types.
  */
 @Canonical
-@ToString(includeNames=true, includePackage = false)
+@ToString(includeNames = true, includePackage = false)
 @EqualsAndHashCode()
 @AnnotationCollector
 @interface Pandoc {

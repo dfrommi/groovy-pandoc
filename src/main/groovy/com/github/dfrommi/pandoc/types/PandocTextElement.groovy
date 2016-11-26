@@ -10,9 +10,10 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  */
 @Pandoc
 abstract class PandocTextElement implements PandocType {
-	/**
-	 * The text.
-	 */
-	@Child @JsonValue
-	Inline[] text = []
+  /**
+   * The text.
+   */
+  @Child
+  @JsonValue
+  Inline[] text = []
 }

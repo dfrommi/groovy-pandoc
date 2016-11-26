@@ -9,15 +9,15 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
  */
 @Pandoc
 abstract class RawBase implements PandocType {
-	/**
-	 * Raw content format.
-	 */
-	@JsonValue(index=1)
-	String format = "html"
-	
-	/**
-	 * The raw content. 
-	 */
-	@JsonValue(index=2)
-	String content = ""
+  /**
+   * Raw content format.
+   */
+  @JsonValue(index = 1)
+  String format = "html"
+
+  /**
+   * The raw content.
+   */
+  @JsonValue(index = 2)
+  String content = ""
 }

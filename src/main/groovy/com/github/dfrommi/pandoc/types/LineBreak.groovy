@@ -5,7 +5,7 @@ import com.github.dfrommi.pandoc.types.annotation.Pandoc
 
 /**
  * A line break.
- * 
+ *
  * @Example 2 spaces followed by new line.
  */
 @Pandoc
