@@ -47,20 +47,20 @@ class TypeSpecBase extends Specification {
   }
 
   def findJsonElement(type, node) {
-    if(node in Map && node.t == type) {
+    if (node in Map && node.t == type) {
       return node
-    } else if(node in List || node in Map) {
+    } else if (node in List || node in Map) {
       node.findResult {
         //println "X " + it + " -- " + it.getClass()
-        if(it in Map && it.t == type) {
+        if (it in Map && it.t == type) {
           it
         } else {
-          if(it in Map || it in List) {
+          if (it in Map || it in List) {
             it.findResult { inner ->
               //println "I: $inner -- " + inner.getClass()
               findJsonElement(type, (it in Map) ? inner.value : inner)
             }
-          } else if( it in Map.Entry) {
+          } else if (it in Map.Entry) {
             findJsonElement(type, it.value)
           }
         }

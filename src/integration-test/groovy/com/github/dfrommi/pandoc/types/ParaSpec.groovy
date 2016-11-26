@@ -5,7 +5,7 @@ import spock.lang.Shared
 class ParaSpec extends TypeSpecBase {
   @Shared
   def conversions = [
-			['Text',
-			 new Para(content: new Str("Text"))]
-		]
+    ['Text',
+     new Para(content: new Str("Text"))]
+  ]
 }

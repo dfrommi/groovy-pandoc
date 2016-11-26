@@ -5,7 +5,7 @@ import spock.lang.Shared
 class StrSpec extends TypeSpecBase {
   @Shared
   def conversions = [
-			['TheText',
-			 new Str("TheText")]
-		]
+    ['TheText',
+     new Str("TheText")]
+  ]
 }

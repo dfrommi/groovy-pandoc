@@ -5,7 +5,7 @@ import spock.lang.Shared
 class HorizontalRuleSpec extends TypeSpecBase {
   @Shared
   def conversions = [
-			['* * * * *', new HorizontalRule()],
-			['--------', new HorizontalRule()],
-		]
+    ['* * * * *', new HorizontalRule()],
+    ['--------', new HorizontalRule()],
+  ]
 }

@@ -5,6 +5,6 @@ import spock.lang.Shared
 class LineBreakSpec extends TypeSpecBase {
   @Shared
   def conversions = [
-		["First  \nsecond", new LineBreak()]
-	]
+    ["First  \nsecond", new LineBreak()]
+  ]
 }

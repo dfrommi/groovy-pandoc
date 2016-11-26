@@ -7,6 +7,6 @@ import spock.lang.Shared
 class QuotedSpec extends TypeSpecBase {
   @Shared
   def conversions = [
-		["Hallo", new Quoted(type: Quoted.QuoteType.SingleQuote, text: [new Str("Hallo")])]
-	]
+    ["Hallo", new Quoted(type: Quoted.QuoteType.SingleQuote, text: [new Str("Hallo")])]
+  ]
 }

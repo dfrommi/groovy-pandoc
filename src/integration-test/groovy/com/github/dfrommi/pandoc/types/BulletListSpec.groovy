@@ -26,12 +26,12 @@ class BulletListSpec extends TypeSpecBase {
 - one
     - two
 ''',
-			new BulletList(items: [
-					[new Plain(content: new Str("one")),
-					 new BulletList(items: [
-							[new Plain(content: new Str("two"))]
+new BulletList(items: [
+  [new Plain(content: new Str("one")),
+   new BulletList(items: [
+     [new Plain(content: new Str("two"))]
 
-					])]
-			])]
-		]
+   ])]
+])]
+  ]
 }

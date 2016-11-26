@@ -5,6 +5,6 @@ import spock.lang.Shared
 class SpaceSpec extends TypeSpecBase {
   @Shared
   def conversions = [
-			['Text with spaces', new Space()]
-		]
+    ['Text with spaces', new Space()]
+  ]
 }

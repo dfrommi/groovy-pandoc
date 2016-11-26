@@ -10,27 +10,27 @@ import spock.lang.Unroll
 class MetaSpec extends Specification {
   @Shared
   def parameters = [
-'''---
+    '''---
 title: The Title
 ---''',
-'''---
+    '''---
 test: true
 ---''',
-'''---
+    '''---
 number: 12
 ---''',
-'''---
+    '''---
 list: 
  - a: 1
    b: 2
 ---''',
-'''---
+    '''---
 abstract: |
   This is the abstract.
 
   It consists of two paragraphs.
 ---''',
-'''---
+    '''---
 references:
 - id: fenner2012a
   title: One-click science marketing
@@ -49,23 +49,23 @@ references:
     year: 2012
     month: 3
 ---'''
-	]
+  ]
 
   @Unroll
   def "meta data #md is converted to JSON correctly"() {
     given:
-		PandocConverter converter = Pandoc.factory.converter
-		JsonToMetaConverter metaConverter = Pandoc.factory.jsonToMetaConverter
-		def document = converter.mdToJson(md)
+    PandocConverter converter = Pandoc.factory.converter
+    JsonToMetaConverter metaConverter = Pandoc.factory.jsonToMetaConverter
+    def document = converter.mdToJson(md)
     def meta = metaConverter.fromJson(document.meta)
 
     when:
-		def result = metaConverter.toJson(meta)
+    def result = metaConverter.toJson(meta)
 
     then:
-		document.meta == result
+    document.meta == result
 
     where:
     md << parameters
-	}
+  }
 }
