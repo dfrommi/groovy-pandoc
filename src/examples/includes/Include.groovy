@@ -21,7 +21,7 @@ toJSONFilter(CodeBlock) { CodeBlock cb, meta ->
   def result = [cb]
 
   while (result.any {isIncludeBlock(it)}) {
-    result = result.collectMany { isIncludeBlock(it) ? converter.mdToDocument(includeFiles(it.code))[1] : [it] }
+    result = result.collectMany { isIncludeBlock(it) ? converter.mdToDocument(includeFiles(it.code))['blocks'] : [it] }
   }
 
   result
